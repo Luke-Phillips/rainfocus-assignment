@@ -23,38 +23,46 @@ function Event() {
 
   return event ? (
     <>
-      <div>{event.color}</div>
-      <div>{event.isActive}</div>
-      <div>{event.name}</div>
-      <div>{event.date}</div>
-      <div>{event.time}</div>
-      <div>{event.company}</div>
-      <div>{event.email}</div>
-      <div>{event.phone}</div>
-      <div>{event.address}</div>
-      <div>{event.description}</div>
-      <div>{event.image}</div>
-      <div>{event.createdOn}</div>
-      <Link to={`/events/${event.id}/edit`} replace>
-        <PencilIcon className='w-5' />
-      </Link>
-      <div
-        onClick={async () => {
-          await deleteEvent(event.id);
-          if (!deleteEventError) {
-            navigate('/events');
-          }
-        }}
-      >
-        {isDeletingEvent ? (
-          <div>
-            <p>Deleting event</p>
-            <ArrowPathIcon className='w-5 animate-spin' />
+      <h1 className='m-6 text-2xl'>Event Details</h1>
+      <div className='ml-12'>
+        <div className='mb-1'>Name: {event.name}</div>
+        <div className='mb-1'>Company: {event.company}</div>
+        <div>Description: {event.description}</div>
+        <div>Color: {event.color}</div>
+        <div>Email: {event.email}</div>
+        <div>Phone: {event.phone}</div>
+        <div>Address: {event.address}</div>
+        <div>Date: {event.date}</div>
+        <div>Time: {event.time}</div>
+        <div>Image: {event.image}</div>
+        <div className='w-64 flex mt-3 justify-evenly'>
+          <Link
+            className='p-4 rounded-lg hover:bg-blue-50 border'
+            to={`/events/${event.id}/edit`}
+            replace
+          >
+            <PencilIcon className='w-8' />
+          </Link>
+          <div
+            className='p-4 cursor-pointer border rounded-lg hover:bg-red-50'
+            onClick={async () => {
+              await deleteEvent(event.id);
+              if (!deleteEventError) {
+                navigate('/events');
+              }
+            }}
+          >
+            {isDeletingEvent ? (
+              <div>
+                <p>Deleting event</p>
+                <ArrowPathIcon className='w-5 animate-spin' />
+              </div>
+            ) : (
+              <TrashIcon className='w-8 ' />
+            )}
+            {deleteEventError && <p>{deleteEventError}</p>}
           </div>
-        ) : (
-          <TrashIcon className='w-5' />
-        )}
-        {deleteEventError && <p>{deleteEventError}</p>}
+        </div>
       </div>
     </>
   ) : (
