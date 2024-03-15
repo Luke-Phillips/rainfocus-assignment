@@ -42,7 +42,7 @@ function Events() {
 
   return (
     <>
-      <div>List of Events</div>
+      <div className=''>Events</div>
       <div>
         {events.map((event) => (
           <div key={event.id}>
@@ -56,13 +56,20 @@ function Events() {
         ))}
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Name</label>
-          <input {...register('name', { required: true, maxLength: 100 })} />
+          <input
+            className='border border-1 p-1'
+            {...register('name', { required: true, maxLength: 100 })}
+          />
           <label>Description</label>
           <input
+            className='border border-1 p-1'
             {...register('description', { required: true, maxLenght: 500 })}
           />
           <label>Company</label>
-          <input {...register('company', { required: true, maxLength: 100 })} />
+          <input
+            className='border border-1 p-1'
+            {...register('company', { required: true, maxLength: 100 })}
+          />
           <label>Color</label>
           <select {...register('color', { validate: colorValidator })}>
             <option value='red'>red</option>
@@ -77,6 +84,7 @@ function Events() {
           </select>
           <label>Email</label>
           <input
+            className='border border-1 p-1'
             {...register('email', {
               required: true,
               pattern: {
@@ -88,6 +96,7 @@ function Events() {
           />
           <label>Phone</label>
           <input
+            className='border border-1 p-1'
             {...register('phone', {
               required: true,
               pattern: {
@@ -97,13 +106,16 @@ function Events() {
             })}
           />
           <label>Address</label>
-          <input {...register('address', { required: true, maxLength: 500 })} />
+          <input
+            className='border border-1 p-1'
+            {...register('address', { required: true, maxLength: 500 })}
+          />
           <label>Image</label>
-          <input {...register('image', {})} />
+          <input className='border border-1 p-1' {...register('image', {})} />
           <label>Date</label>
-          <input {...register('date', {})} />
+          <input className='border border-1 p-1' {...register('date', {})} />
           <label>Time</label>
-          <input {...register('time', {})} />
+          <input className='border border-1 p-1' {...register('time', {})} />
           <ErrorMessage
             errors={errors}
             name='email'
