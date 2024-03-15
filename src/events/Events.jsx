@@ -15,6 +15,10 @@ function Events() {
   const [addEvent, isAddingEvent] = useAddEvent();
   const [deleteEvent, isDeletingEvent] = useDeleteEvent();
 
+  const sortedEvents = events.sort((eventA, eventB) =>
+    eventA.company < eventB.company ? -1 : 1
+  );
+
   const [showForm, setShowForm] = useState(false);
   const {
     register,
@@ -33,7 +37,7 @@ function Events() {
     <>
       <div className=''>Events</div>
       <div>
-        {events.map((event) => (
+        {sortedEvents.map((event) => (
           <div key={event.id} className='my-6'>
             <Link to={`/events/${event.id}`}>
               <div>{`Event: ${event.name}`}</div>
