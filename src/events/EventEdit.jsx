@@ -37,11 +37,11 @@ function Event() {
 
   const onSave = async (eventData) => {
     await updateEvent(event.id, eventData);
-    navigate(`/events/${event.id}`);
+    navigate(`/events/${event.id}`, { replace: true });
   };
 
   const onCancel = async () => {
-    navigate(`/events/${event.id}`);
+    navigate(`/events/${event.id}`, { replace: true });
   };
 
   return event ? (

@@ -35,7 +35,7 @@ function Event() {
       <div>{event.description}</div>
       <div>{event.image}</div>
       <div>{event.createdOn}</div>
-      <Link to={`/events/${event.id}/edit`}>
+      <Link to={`/events/${event.id}/edit`} replace>
         <PencilIcon className='w-5' />
       </Link>
       <div
