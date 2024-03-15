@@ -1,4 +1,5 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, Link } from 'react-router-dom';
+import { PencilIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 
 export async function loader({ params }) {
@@ -29,6 +30,9 @@ function Event() {
       <div>{event.description}</div>
       <div>{event.image}</div>
       <div>{event.createdOn}</div>
+      <Link to={`/events/${event.id}/edit`}>
+        <PencilIcon className='w-5' />
+      </Link>
     </>
   ) : (
     <p>Event not found</p>
