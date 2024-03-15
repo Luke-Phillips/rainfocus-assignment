@@ -1,6 +1,7 @@
-import { useLoaderData, Link } from 'react-router-dom';
-import { PencilIcon } from '@heroicons/react/24/outline';
+import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import useDeleteEvent from '../hooks/useDeleteEvent';
 
 export async function loader({ params }) {
   try {
@@ -16,6 +17,9 @@ export async function loader({ params }) {
 
 function Event() {
   const event = useLoaderData();
+  const [deleteEvent, isDeletingEvent] = useDeleteEvent();
+  const navigate = useNavigate();
+
   return event ? (
     <>
       <div>{event.color}</div>
@@ -33,6 +37,14 @@ function Event() {
       <Link to={`/events/${event.id}/edit`}>
         <PencilIcon className='w-5' />
       </Link>
+      <div
+        onClick={async () => {
+          await deleteEvent(event.id);
+          navigate('/events');
+        }}
+      >
+        <TrashIcon className='w-5' />
+      </div>
     </>
   ) : (
     <p>Event not found</p>
