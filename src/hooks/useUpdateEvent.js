@@ -10,7 +10,6 @@ const useUpdateEvent = () => {
       await axios.put(`https://rf-json-server.herokuapp.com/events/${id}`, {
         ...data,
         isActive: true,
-        createdOn: Date.now, // TODO
       });
     } catch (e) {
       console.log(e);
