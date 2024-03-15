@@ -1,57 +1,33 @@
 import { useState } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { colorValidator } from '../validation/validators';
 import { ErrorMessage } from '@hookform/error-message';
 import { TrashIcon, PlusIcon } from '@heroicons/react/24/outline';
-
-export async function loader() {
-  try {
-    const res = await axios.get('https://rf-json-server.herokuapp.com/events/');
-    return res.data;
-  } catch (e) {
-    console.log('error getting events data: ', e);
-    return [];
-  }
-}
-
-const onCreate = async (data) => {
-  try {
-    const event = await axios.post(
-      'https://rf-json-server.herokuapp.com/events/',
-      {
-        ...data,
-        isActive: true,
-        createdOn: Date.now,
-      }
-    );
-    console.log(event);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const onDelete = async (id) => {
-  console.log('deleting');
-  try {
-    const res = await axios.delete(
-      `https://rf-json-server.herokuapp.com/events/${id}`
-    );
-    console.log(res);
-  } catch (e) {
-    console.log(`error deleting event ${id}: `, e);
-  }
-};
+import useGetEvents from '../hooks/useGetEvents';
+import useAddEvent from '../hooks/useAddEvent';
+import useDeleteEvent from '../hooks/useDeleteEvent';
 
 function Events() {
+  // const events = useLoaderData();
+
+  const [events, getEvents, isGettingEvent] = useGetEvents();
+  const [addEvent, isAddingEvent] = useAddEvent();
+  const [deleteEvent, isDeletingEvent] = useDeleteEvent();
+
   const [showForm, setShowForm] = useState(false);
-  const events = useLoaderData();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+  const onCreate = async (eventData) => {
+    reset();
+    setShowForm(false);
+    await addEvent(eventData);
+    getEvents();
+  };
 
   return (
     <>
@@ -64,7 +40,12 @@ function Events() {
               <div>{`Description: ${event.description}`}</div>
               <div>{`Company: ${event.company}`}</div>
             </Link>
-            <div onClick={() => onDelete(event.id)}>
+            <div
+              onClick={async () => {
+                await deleteEvent(event.id);
+                getEvents();
+              }}
+            >
               <TrashIcon className='w-5' />
             </div>
           </div>
