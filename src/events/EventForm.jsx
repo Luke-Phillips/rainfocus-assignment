@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import { colorValidator } from '../validation/validators';
 import { ErrorMessage } from '@hookform/error-message';
 
@@ -16,9 +18,13 @@ const EventForm = ({
     reset,
   } = useForm(defaults);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmitWrapper = async (eventData) => {
+    setIsSubmitting(true);
     reset(eventData);
     await onSubmit(eventData);
+    setIsSubmitting(false);
   };
 
   return (
@@ -118,14 +124,17 @@ const EventForm = ({
       <input
         type='submit'
         value={submitLabel}
-        className='border border-1 p-2 hover:bg-green-100 cursor-pointer'
+        disabled={isSubmitting}
+        className='border border-1 p-2 hover:bg-green-100 cursor-pointer disabled:bg-slate-100 disabled:text-slate-500 disabled:hover:bg-slate-100'
       />
       <button
         onClick={onCancel}
-        className='border p-2 hover:bg-red-100 cursor-pointer'
+        disabled={isSubmitting}
+        className='border p-2 hover:bg-red-100 cursor-pointer disabled:bg-slate-100 disabled:text-slate-500 disabled:hover:bg-slate-100'
       >
         {cancelLabel}
       </button>
+      {isSubmitting && <ArrowPathIcon className='w-5 animate-spin' />}
     </form>
   );
 };

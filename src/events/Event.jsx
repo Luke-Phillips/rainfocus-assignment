@@ -1,6 +1,7 @@
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import useDeleteEvent from '../hooks/useDeleteEvent';
 
 export async function loader({ params }) {
@@ -17,7 +18,7 @@ export async function loader({ params }) {
 
 function Event() {
   const event = useLoaderData();
-  const [deleteEvent, isDeletingEvent] = useDeleteEvent();
+  const [deleteEvent, isDeletingEvent, deleteEventError] = useDeleteEvent();
   const navigate = useNavigate();
 
   return event ? (
@@ -40,10 +41,20 @@ function Event() {
       <div
         onClick={async () => {
           await deleteEvent(event.id);
-          navigate('/events');
+          if (!deleteEventError) {
+            navigate('/events');
+          }
         }}
       >
-        <TrashIcon className='w-5' />
+        {isDeletingEvent ? (
+          <div>
+            <p>Deleting event</p>
+            <ArrowPathIcon className='w-5 animate-spin' />
+          </div>
+        ) : (
+          <TrashIcon className='w-5' />
+        )}
+        {deleteEventError && <p>{deleteEventError}</p>}
       </div>
     </>
   ) : (

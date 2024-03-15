@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const useAddEvent = () => {
   const [isAdding, setIsAdding] = useState(false);
+  const [error, setError] = useState(null);
 
   const addEvent = async (data) => {
     setIsAdding(true);
@@ -12,14 +13,15 @@ const useAddEvent = () => {
         isActive: true,
         createdOn: Date.now,
       });
+      setError(null);
     } catch (e) {
-      console.log(e);
+      setError('error adding event');
     } finally {
       setIsAdding(false);
     }
   };
 
-  return [addEvent, isAdding];
+  return [addEvent, isAdding, error];
 };
 
 export default useAddEvent;

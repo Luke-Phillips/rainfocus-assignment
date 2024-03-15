@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const useGetEvents = () => {
   const [events, setEvents] = useState([]);
+  const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const fetch = useCallback(async () => {
@@ -11,9 +12,10 @@ const useGetEvents = () => {
       const res = await axios.get(
         'https://rf-json-server.herokuapp.com/events/'
       );
+      setError(null);
       setEvents(res.data);
     } catch (e) {
-      console.log('error getting events data: ', e);
+      setError('error getting events data');
     } finally {
       setIsFetching(false);
     }
@@ -23,7 +25,7 @@ const useGetEvents = () => {
     fetch();
   }, [fetch]);
 
-  return [events, fetch, isFetching];
+  return [events, fetch, isFetching, error];
 };
 
 export default useGetEvents;

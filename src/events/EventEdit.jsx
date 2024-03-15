@@ -18,7 +18,7 @@ export async function loader({ params }) {
 function Event() {
   const event = useLoaderData();
   const navigate = useNavigate();
-  const [updateEvent, isUpdatingEvent] = useUpdateEvent();
+  const [updateEvent] = useUpdateEvent();
 
   const eventFormDefaults = {
     defaultValues: {
